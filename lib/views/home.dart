@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled2/helper/data.dart';
@@ -5,7 +6,9 @@ import 'package:untitled2/models/article_model.dart';
 import 'package:untitled2/views/article_view.dart';
 import 'package:untitled2/views/category_news.dart';
 import '../helper/news.dart';
+import '../models/ProductDataModel.dart';
 import '../models/category_model.dart';
+import 'package:flutter/services.dart' as rootBundle;
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -38,8 +41,18 @@ class _HomeState extends State<Home> {
     });
   }
 
+  Future<List<ProductDataModel>> ReadJsonData() async {
+    final jsonData =
+    await rootBundle.rootBundle.loadString('jsonfile/productlist.json');
+    final list = json.decode(jsonData) as List<dynamic>;
+
+    return list.map((e) => ProductDataModel.fromJson(e)).toList();
+  }
+
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -84,12 +97,15 @@ class _HomeState extends State<Home> {
               Container(
                 padding: const EdgeInsets.only(top: 16),
                 child: ListView.builder(
+
                     physics: const ClampingScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: articles.length,
                     itemBuilder: (context, index) {
+
                       return BlogTile(
                         imageUrl: articles[index].urlToImage,
+                        // imageUrl: ,
                         title: articles[index].title,
                         desc: articles[index].description,
                         url: articles[index].url,
