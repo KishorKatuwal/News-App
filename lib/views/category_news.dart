@@ -28,8 +28,6 @@ class _CategoryViewsState extends State<CategoryViews> {
   void getCategoriesNews() async {
     await news1.getNews(widget.category);
     articles = news1.news;
-    // print("kishor");
-    // print(articles);
     setState(() {
       _Loading = false;
     });

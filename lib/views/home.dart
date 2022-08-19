@@ -43,16 +43,14 @@ class _HomeState extends State<Home> {
 
   Future<List<ProductDataModel>> ReadJsonData() async {
     final jsonData =
-    await rootBundle.rootBundle.loadString('jsonfile/productlist.json');
+        await rootBundle.rootBundle.loadString('jsonfile/productlist.json');
     final list = json.decode(jsonData) as List<dynamic>;
 
     return list.map((e) => ProductDataModel.fromJson(e)).toList();
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -74,48 +72,46 @@ class _HomeState extends State<Home> {
       body: _Loading
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            children: [
-              //categories
-              Container(
+              child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                height: 70,
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: categories.length,
-                    itemBuilder: (context, index) {
-                      return CategoryTile(
-                          imageUrl: categories[index].imageUrl,
-                          categoryName: categories[index].categoryName);
-                    }),
+                child: Column(
+                  children: [
+                    //categories
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      height: 70,
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: categories.length,
+                          itemBuilder: (context, index) {
+                            return CategoryTile(
+                                imageUrl: categories[index].imageUrl,
+                                categoryName: categories[index].categoryName);
+                          }),
+                    ),
+
+                    //blogs
+                    Container(
+                      padding: const EdgeInsets.only(top: 16),
+                      child: ListView.builder(
+                          physics: const ClampingScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: articles.length,
+                          itemBuilder: (context, index) {
+                            return BlogTile(
+                              imageUrl: articles[index].urlToImage,
+                              // imageUrl: ,
+                              title: articles[index].title,
+                              desc: articles[index].description,
+                              url: articles[index].url,
+                            );
+                          }),
+                    ),
+                  ],
+                ),
               ),
-
-              //blogs
-              Container(
-                padding: const EdgeInsets.only(top: 16),
-                child: ListView.builder(
-
-                    physics: const ClampingScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: articles.length,
-                    itemBuilder: (context, index) {
-
-                      return BlogTile(
-                        imageUrl: articles[index].urlToImage,
-                        // imageUrl: ,
-                        title: articles[index].title,
-                        desc: articles[index].description,
-                        url: articles[index].url,
-                      );
-                    }),
-              ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }
@@ -131,10 +127,11 @@ class CategoryTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context)
-        =>
-            CategoryViews(category: categoryName.toLowerCase()))
-        );
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    CategoryViews(category: categoryName.toLowerCase())));
       },
       child: Container(
         margin: const EdgeInsets.only(right: 16),
@@ -186,10 +183,8 @@ class BlogTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ArticleView(blogUrl: url)));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => ArticleView(blogUrl: url)));
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 16),
