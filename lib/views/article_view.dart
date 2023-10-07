@@ -10,6 +10,8 @@ class ArticleView extends StatefulWidget {
   State<ArticleView> createState() => _ArticleViewState();
 }
 
+
+
 class _ArticleViewState extends State<ArticleView> {
   final Completer<WebViewController> _completer =
       Completer<WebViewController>();
